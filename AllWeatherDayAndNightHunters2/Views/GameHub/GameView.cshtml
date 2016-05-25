@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "GameView";
+}
+<link href="~/Content/GameSyle.css" rel="stylesheet" />
+<div id="backy">
+    <h1 id="Textdemo" class="gameColor">Welcome to the treasure hunter</h1>
+    <h4 class="gameColor">Select a color and join the hunt</h4>
+    <table class="padded">
+        <tr>
+            <td>
+                <form id="form1" action="">
+                    @*<div id="radio">
+                        <input id="red" type="radio" name="shapeOwner" value="red"><label class="ui-button" for="red">red</label>
+                        <input id="blue" type="radio" name="shapeOwner" value="blue"><label for="blue">blue</label>
+                        <input id="green" type="radio" name="shapeOwner" value="green"><label for="green">green</label>
+                    </div>*@
+                    <div id="radio" class="btn-group" data-toggle="buttons">
+                      <label class="btn btn-primary active">
+                        <input type="radio" name="shapeOwner" id="red" autocomplete="off" value="red"  checked> Red
+                      </label>
+                      <label class="btn btn-primary">
+                        <input type="radio" name="shapeOwner" id="blue" autocomplete="off" value="blue"> Blue
+                      </label>
+                      <label class="btn btn-primary">
+                        <input type="radio" name="shapeOwner" id="green" autocomplete="off" value="green"> Green
+                      </label>
+                    </div>
+                </form>
+            </td>
+        </tr>
+    </table>
+    <div id="wrapper" class="wrapper">
+        <div id="ScoreContainer" class="ScoreBoard"></div>
+        <div id="Container" class="GameField">
+            <div id="coinshape"></div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/jquery")
+<script src="~/Scripts/GameStart.js"></script>
+<script src="~/Scripts/PlayerScript.js"></script>
+
+
+

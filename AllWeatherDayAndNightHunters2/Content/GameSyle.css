@@ -1,0 +1,72 @@
+﻿#backy {
+    padding: 0; margin: 0;
+    font-family: 'Segoe UI', Arial;
+    background-color: #9EB1E4;
+}
+#coinshape {
+    width: 50px;
+    height: 50px;
+    background-color: #FFD700;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    position: absolute;
+    left: 500px;
+    top: 250px;
+}
+#shape {
+    width: 100px;
+    height: 100px;
+    background-color: #FF0000;
+    position: fixed;
+    cursor: move;
+}
+#shape2 {
+    width: 100px;
+    height: 100px;
+    background-color: #0000FF;
+    position: fixed;
+    cursor: move;
+}
+#shape3 {
+    width: 100px;
+    height: 100px;
+    background-color: #00FF00;
+    position: fixed;
+    cursor: move;
+}
+.PlayerShape {
+    width: 100px;
+    height: 100px;
+    background-color: #c98ce5;
+    position: absolute;
+    cursor: move;
+}
+h1.gameColor{
+    color:#FFFBFF;
+    padding-left:300px;
+}
+h4.gameColor{
+    color:#FFFBFF;
+    padding-left:145px;
+}
+.wrapper{
+    width: 960px;
+    height: 700px;
+}
+.GameField{
+    width: 800px;
+    height: 600px;
+    background-color: #3f69a4;
+    float:left;
+}
+.CoinScore{
+    color: #ffd800;
+}
+.ScoreBoard{
+    width: 145px;
+    float: left;   
+}
+table.padded{
+    padding-left: 140px;
+}
