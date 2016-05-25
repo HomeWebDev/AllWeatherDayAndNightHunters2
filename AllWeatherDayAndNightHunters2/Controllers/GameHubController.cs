@@ -8,16 +8,51 @@ using System.Collections.Concurrent;
 using Newtonsoft.Json;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
 
 namespace AllWeatherDayAndNightHunters2.Controllers
 {
     public class GameHubController: Controller
     {
-        public ActionResult GameView()
+        public ActionResult GameView(string selectedCountry = null)
         {
+            var sl = new List<SelectListItem>();
+
+            string url = (@"https://restcountries.eu/rest/v1/all");
+            WebClient client = new WebClient();
+            string jsonstring = client.DownloadString(url);
+
+            var t = JsonConvert.DeserializeObject<List<CountryItem>>(jsonstring);
+
+            t.ForEach(item => sl.Add(new SelectListItem() { Text = item.name+" [ "+item.capital+" ]", Value = item.capital }));
+
+            ViewBag.CountryList = sl;
+
+            if (selectedCountry != null)
+            {
+                return View();
+            }
             return View();
         }
+        [HttpPost]
+        public ActionResult Selection(string CountryList)
+        {
+            //Lägg till din kod är..
+            //Listan med huvudstad..
+
+            var tt = CountryList;
+
+
+            return RedirectToAction("GameView");
+        }
     }
+
+    public class CountryItem
+    {
+        public string name { get; set; }
+        public string capital { get; set; }
+    }
+
     public class Broadcaster
     {
         private readonly static Lazy<Broadcaster> _instance =

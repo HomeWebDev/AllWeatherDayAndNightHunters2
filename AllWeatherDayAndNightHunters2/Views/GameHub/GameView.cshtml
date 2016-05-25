@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewBag.Title = "GameView";
 }
 <link href="~/Content/GameSyle.css" rel="stylesheet" />
@@ -26,6 +27,11 @@
                       </label>
                     </div>
                 </form>
+                @using (Html.BeginForm("Selection","GameHub",FormMethod.Post))
+                {
+                    @Html.DropDownList("CountryList")
+                    <input type="submit" value="Select"/>
+                }
             </td>
         </tr>
     </table>

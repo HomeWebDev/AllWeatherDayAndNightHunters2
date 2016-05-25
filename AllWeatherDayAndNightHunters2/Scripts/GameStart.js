@@ -2,7 +2,7 @@
 /// <reference path="../Scripts/jquery-ui-1.11.4.min.js"/>
 
 $(function () {
-    var t = $("#radio")
+    var t = $("#radio");
     //$("#radio").buttonset();
     function runEffect() {
             // get effect type from
@@ -10,13 +10,13 @@ $(function () {
         var options = {};
             // run the effect
         $( "#Container" ).show( "fold", options, 500, callback );
-    };
+    }
     //callback function to bring a hidden box back
     function callback() {
         setTimeout(function() {
             $("#Container:visible").removeAttr("style").show();
         }, 1000 );
-    };
+    }
         // set effect from select menu value
     $( "#radio" ).click(function() {
         runEffect();

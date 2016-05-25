@@ -28,7 +28,7 @@ $(function () {
     coinModel = {
         left: 500,
         top: 250
-    }
+    };
     var user;
     moved = false;
     coinCatchable = true;
@@ -50,20 +50,18 @@ $(function () {
         $playerScore.text("Player " + model.ShapeId+" Score: "+model.CoinScore);
     };
 
-    moveShapeHub.client.winner = function (model)
-    {
+    moveShapeHub.client.winner = function (model) {
         alert("Player " + model.ShapeId + "\n wins!");
         moveShapeHub.server.clearScoreForAllUsers();
-    }
+    };
 
-    moveShapeHub.client.clearScoreForAllUsers = function()
-    {
+    moveShapeHub.client.clearScoreForAllUsers = function () {
         $playerScores = $("div").filter(".CoinScore").each(function (i) {
             $(this).text(this.id + " Score: 0");
         });
-        
-    }
 
+    };
+     
     $.connection.hub.start().done(function () {
         moveShapeHub.server.getUserN();
     });
@@ -102,7 +100,7 @@ $(function () {
 
     moveShapeHub.client.otherPlayer = function (model) {
         var Shapy = model;
-        if (Shapy.ShapeOwner != null) {
+        if (Shapy.ShapeOwner !== null) {
             if (!$("#" + Shapy.ShapeOwner).length) {
                 $newPlayer = $("<div id='" + Shapy.ShapeOwner + "'></div").prependTo($parent).addClass("PlayerShape");
                 $newPlayer.text("Player " + ": " + Shapy.ShapeId);
