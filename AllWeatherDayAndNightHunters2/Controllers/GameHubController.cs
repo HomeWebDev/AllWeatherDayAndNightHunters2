@@ -9,12 +9,13 @@ using Newtonsoft.Json;
 using System.Web;
 using System.Web.Mvc;
 using System.Net;
+using Newtonsoft.Json.Linq;
 
 namespace AllWeatherDayAndNightHunters2.Controllers
 {
     public class GameHubController: Controller
     {
-        public ActionResult GameView(string selectedCountry = null)
+        public ActionResult GameView(string selectedCountry = null, string weatherIconUrl = null)
         {
             var sl = new List<SelectListItem>();
 
@@ -28,19 +29,34 @@ namespace AllWeatherDayAndNightHunters2.Controllers
 
             ViewBag.CountryList = sl;
 
+            ViewBag.WeatherIconUrl = weatherIconUrl;
+
             if (selectedCountry != null)
             {
                 return View();
             }
             return View();
         }
+
         [HttpPost]
         public ActionResult Selection(string CountryList)
         {
             //Lägg till din kod är..
             //Listan med huvudstad..
 
-            var tt = CountryList;
+            if(CountryList != null)
+            {
+                string url = string.Format(@"http://api.openweathermap.org/data/2.5/weather?q={0}&APPID=0efffa3566c0a86b9a03fb679a5bab08",CountryList);
+                WebClient client = new WebClient();
+
+                string jsonstring = client.DownloadString(url);
+                var obj = JObject.Parse(jsonstring);
+
+                //Weather icon representing weather at chosen city, to be used in backgrond image
+                string weatherIcon = string.Format(@"http://openweathermap.org/img/w/{0}.png",(string)obj["weather"][0]["icon"]);
+
+                return RedirectToAction("GameView", new { weatherIconUrl = weatherIcon });
+            }
 
 
             return RedirectToAction("GameView");
