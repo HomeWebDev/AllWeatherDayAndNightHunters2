@@ -3,7 +3,7 @@
     ViewBag.Title = "GameView";
 }
 <link href="~/Content/GameSyle.css" rel="stylesheet" />
-<div id="backy">
+<div id="backy" style="background-color: @ViewBag.BackgroundColor">
     <h1 id="Textdemo" class="gameColor">Welcome to the treasure hunter</h1>
     <h4 class="gameColor">Select a color and join the hunt</h4>
     <table class="padded">
@@ -40,7 +40,7 @@
         @*@if (ViewBag.WeatherIconUrl != null)
         {*@           
             <div id="Container" class="GameField" style="background-image : url(@ViewBag.WeatherIconUrl)">
-                <div id="coinshape"></div>
+                <div id="coinshape" style="background-color: @ViewBag.CoinColor"</div>
             </div>
         @*else
         {
@@ -50,7 +50,7 @@
         }*@
     </div>
 </div>
-@*<iframe width="100%" height="150" src="http://sverigesradio.se/sida/embed?url=http%3a%2f%2fsverigesradio.se%2fsida%2fkanal.aspx%3fprogramid%3d3634%26playchannel%3d164" frameborder="0"></iframe>*@
+<iframe width="100%" height="150" src="http://sverigesradio.se/sida/embed?url=http%3a%2f%2fsverigesradio.se%2fsida%2fkanal.aspx%3fprogramid%3d3634%26playchannel%3d164" frameborder="0"></iframe>
 @Scripts.Render("~/bundles/jquery")
 <script src="~/Scripts/GameStart.js"></script>
 <script src="~/Scripts/PlayerScript.js"></script>

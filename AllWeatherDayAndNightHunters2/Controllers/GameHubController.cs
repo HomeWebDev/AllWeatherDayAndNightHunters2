@@ -15,7 +15,7 @@ namespace AllWeatherDayAndNightHunters2.Controllers
 {
     public class GameHubController: Controller
     {
-        public ActionResult GameView(string selectedCountry = null, string weatherIconUrl = null)
+        public ActionResult GameView(string selectedCountry = null, string weatherIconUrl = null, string coinColor = null, string backgroundColor = null)
         {
             var sl = new List<SelectListItem>();
 
@@ -30,6 +30,10 @@ namespace AllWeatherDayAndNightHunters2.Controllers
             ViewBag.CountryList = sl;
 
             ViewBag.WeatherIconUrl = weatherIconUrl;
+
+            ViewBag.CoinColor = coinColor;
+
+            ViewBag.BackgroundColor = backgroundColor;
 
             if (selectedCountry != null)
             {
@@ -55,7 +59,46 @@ namespace AllWeatherDayAndNightHunters2.Controllers
                 //Weather icon representing weather at chosen city, to be used in backgrond image
                 string weatherIcon = string.Format(@"http://openweathermap.org/img/w/{0}.png",(string)obj["weather"][0]["icon"]);
 
-                return RedirectToAction("GameView", new { weatherIconUrl = weatherIcon });
+                //Longitude and latitude of chosen city
+                string lon = (string)obj["coord"]["lon"];
+                string lat = (string)obj["coord"]["lat"];
+
+                string timeStamp = DateTime.Now.ToString();
+                TimeSpan span = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1, 0, 0, 0));
+                double currentTimeDouble = span.TotalSeconds;
+                currentTimeDouble = Math.Round(currentTimeDouble);
+
+                string currentTimeString = currentTimeDouble.ToString();
+
+
+                string url2 = string.Format(@"https://maps.googleapis.com/maps/api/timezone/json?location=" + lat + "," + lon + "&timestamp=" + currentTimeString + "& key=AIzaSyAbWTrXF9-X76XxEZH2SsFFNLtdb2ojtAU");
+
+
+                WebClient client2 = new WebClient();
+
+                string jsonstring2 = client.DownloadString(url2);
+                var obj2 = JObject.Parse(jsonstring2);
+
+                //Time difference in seconds of chosen place compared to GMT(?) time
+                //To be used to calculate if night or day
+                string timeDifference = (string)obj2["rawOffset"];
+                int timeDifferenceIntHours = Convert.ToInt32(timeDifference) / 3600;
+
+                string colorOfCoin;
+                string colorOfBackground;
+                if ((DateTime.UtcNow.Hour + (timeDifferenceIntHours)) > 6 & (DateTime.UtcNow.Hour + (timeDifferenceIntHours)) < 18)
+                {
+                    colorOfCoin = "#FFD700";
+                    colorOfBackground = "#2875e1";
+                }
+                else
+                {
+                    colorOfCoin = "#FFFBFF";
+                    colorOfBackground = "#000000";
+                }
+
+
+                return RedirectToAction("GameView", new { weatherIconUrl = weatherIcon, coinColor = colorOfCoin, backgroundColor = colorOfBackground });
             }
 
 
