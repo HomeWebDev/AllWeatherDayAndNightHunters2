@@ -1,0 +1,18 @@
+﻿@model List<AllWeatherDayAndNightHunters2.Models.PlayerModel>
+
+@{
+    ViewBag.Title = "PlayerView";
+}
+
+<h2>PlayerView</h2>
+
+@using (Html.BeginForm())
+{
+    <div>
+        @Html.DropDownList("playerList")
+        <input type="submit" class="btn btn-primary" value="ok"/>
+    </div>
+    <div>
+        @Html.ActionLink("Create new player","PlayerCreate")
+    </div>
+}

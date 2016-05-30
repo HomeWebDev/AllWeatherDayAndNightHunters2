@@ -7,6 +7,8 @@ $(function () {
     $parent = $("#Container");
     $ScoreContainer = $("#ScoreContainer");
     $Coin = $("#coinshape");
+    $oldplayer = $("#nameStuff")[0];
+    $oldplayerId = $("#Stuff")[0];
 
     moveShapeHub = $.connection.moveShapeHub;
 
@@ -23,7 +25,8 @@ $(function () {
     Shapy = {
         ShapeId: -1,
         ShapeOwner: "none",
-        PlayerId: "none"
+        PlayerId: "none",
+        ActivePlayerId: -1
     };
     coinModel = {
         left: 500,
@@ -38,9 +41,18 @@ $(function () {
         var Shapy = model;
         //$("<div>hej</div").prependTo("body");
         $newplayer = $("<div id='" + Shapy.ShapeOwner + "'></div").prependTo($parent).addClass("PlayerShape");
-        $newplayer.text("Player " + ": " + Shapy.ShapeId);
         $playerScore = $("<div id='" + Shapy.PlayerId + "'></div").prependTo($ScoreContainer).addClass("CoinScore");
-        $playerScore.text("Player " + Shapy.ShapeId+" Score: "+Shapy.CoinScore);
+        if ($oldplayer.attributes[1].value !== "") {
+            $newplayer.text("Player " + ": " + $oldplayer.attributes[1].value);
+            $playerScore.text("Player " + $oldplayer.attributes[1].value + " Score: " + Shapy.CoinScore);
+            Shapy.ShapeId = $oldplayer.attributes[1].value;
+            Shapy.ActivePlayerId = $oldplayerId.attributes[1].value;
+            moveShapeHub.server.setUserName(Shapy);
+        }
+        else {
+            $newplayer.text("Player " + ": " + Shapy.ShapeId);
+            $playerScore.text("Player " + Shapy.ShapeId+" Score: "+Shapy.CoinScore);
+        }
 
         moveShapeHub.server.otherPlayer(Shapy);
     };
@@ -51,7 +63,15 @@ $(function () {
     };
 
     moveShapeHub.client.winner = function (model) {
+
+        //if (oldplayer[0].attributes[1].value != "") {
+        //    alert("Player: " + oldplayer[0].attributes[1].value + "\n wins!");
+        //}
+        //else {
+        //    alert("Player " + model.ShapeId + "\n wins!");
+        //}
         alert("Player " + model.ShapeId + "\n wins!");
+        //moveShapeHub.server.saveScore(model);
         moveShapeHub.server.clearScoreForAllUsers();
     };
 
@@ -88,9 +108,9 @@ $(function () {
     //Function to update position of coin
     moveShapeHub.client.updateCoinShape = function (model) {
         coinModel = model;
-        coinModel = { left: model.left, top: model.top }
-        coinModel.left = (($parent.width() -50) < model.left) ? $parent.width() -50 +$parent.offset().left : model.left;
-        coinModel.top = ($parent.height() - 50 < model.top) ? $parent.height() - 50 +$parent.offset().top : model.top;
+        coinModel = { left: model.left, top: model.top };
+        coinModel.left = $parent.width() -50 < model.left ? $parent.width() -50 +$parent.offset().left : model.left;
+        coinModel.top = $parent.height() - 50 < model.top ? $parent.height() - 50 +$parent.offset().top : model.top;
         coinModel.left = $parent.position().left > coinModel.left ? $parent.position().left : coinModel.left;
         coinModel.top = $parent.position().top > coinModel.top ? $parent.position().top : coinModel.top;
 
@@ -106,7 +126,7 @@ $(function () {
                 $newPlayer.text("Player " + ": " + Shapy.ShapeId);
                 $playerScore = $("<div id='" + Shapy.PlayerId + "'></div").prependTo($ScoreContainer).addClass("CoinScore");
                 $playerScore.text("Player " + Shapy.ShapeId+" Score: "+Shapy.CoinScore);
-                var t = 1;
+                moveShapeHub.server.otherPlayer(model)
             }
         }
     };
@@ -120,13 +140,13 @@ $(function () {
         var val = $('input[name=shapeOwner]:checked', '#form1').val();
         switch (val) {
             case "red":
-                $("#" + user).css("background","#FF0000")
+                $("#" + user).css("background","#FF0000");
                 break;
             case "blue":
-                $("#" + user).css("background","#0000FF")
+                $("#" + user).css("background", "#0000FF");
                 break;
             case "green":
-                $("#" + user).css("background","#00FF00")
+                $("#" + user).css("background", "#00FF00");
                 break;
             default:
                 Shapy.ShapeId = 0;
@@ -153,7 +173,7 @@ $(function () {
             moveShapeHub.server.updateModel(shapeModel);
             moved = false;
         }
-    };
+    }
 
     function checkIfMoneyTaken() {
 
@@ -188,10 +208,10 @@ $(function () {
                 coinCatchable = false;
             }
         //}
-    };
+    }
 
     function alertFunc() {
         //alert("Hello!");
         coinCatchable = true;
-    };
+    }
 });
