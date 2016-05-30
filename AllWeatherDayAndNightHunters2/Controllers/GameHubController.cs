@@ -74,13 +74,13 @@ namespace AllWeatherDayAndNightHunters2.Controllers
             }
 
 
-            //string url = (@"https://restcountries.eu/rest/v1/all");
-            //WebClient client = new WebClient();
-            //string jsonstring = client.DownloadString(url);
+            string url = (@"https://restcountries.eu/rest/v1/all");
+            WebClient client = new WebClient();
+            string jsonstring = client.DownloadString(url);
 
-            //var t = JsonConvert.DeserializeObject<List<CountryItem>>(jsonstring);
+            var t = JsonConvert.DeserializeObject<List<CountryItem>>(jsonstring);
 
-            //t.ForEach(item => sl.Add(new SelectListItem() { Text = item.name+" [ "+item.capital+" ]", Value = item.capital }));
+            t.ForEach(item => sl.Add(new SelectListItem() { Text = item.name + " [ " + item.capital + " ]", Value = item.capital }));
 
             ViewBag.CountryList = sl;
 
