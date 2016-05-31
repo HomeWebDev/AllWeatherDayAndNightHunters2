@@ -14,5 +14,9 @@ namespace AllWeatherDayAndNightHunters2.Controllers
 
             return View();
         }
+        public ActionResult WelcomeView()
+        {
+            return View();
+        }
     }
 }
