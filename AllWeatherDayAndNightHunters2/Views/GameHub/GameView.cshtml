@@ -27,7 +27,7 @@
                       </label>
                     </div>
                 </form>
-                @using (Html.BeginForm("Selection","GameHub",FormMethod.Post,new { pId = ViewBag.ActivePlayerId }))
+                @using (Html.BeginForm("Selection","GameHub",new { @pID = ViewBag.ActivPlayerId },FormMethod.Post,null))
                 {
                     @Html.DropDownList("CountryList")
                     <input type="submit" value="Select"/>

@@ -70,7 +70,7 @@ namespace AllWeatherDayAndNightHunters2.Controllers
             {
                 var p = from player in db.player where player.PlayerID.ToString() == playerId select player;
                 ViewBag.ActivPlayer = p.First().PlayerName;
-                ViewBag.ActivPlayerId = p.First().PlayerID;
+                ViewBag.ActivPlayerId = p.First().PlayerID.ToString();
             }
 
 
@@ -80,7 +80,21 @@ namespace AllWeatherDayAndNightHunters2.Controllers
 
             var t = JsonConvert.DeserializeObject<List<CountryItem>>(jsonstring);
 
-            t.ForEach(item => sl.Add(new SelectListItem() { Text = item.name + " [ " + item.capital + " ]", Value = item.capital }));
+            t.ForEach(item => 
+            {
+                sl.Add(new SelectListItem()
+                {
+                    Text = item.name + " [ " + item.capital + " ]",
+                    Value = item.capital
+                });
+                if (selectedCountry != null)
+                {
+                    if(sl.Last().Value == selectedCountry)
+                    {
+                        sl.Last().Selected = true;
+                    }
+                }
+            });
 
             ViewBag.CountryList = sl;
 
@@ -157,7 +171,8 @@ namespace AllWeatherDayAndNightHunters2.Controllers
                     weatherIconUrl = weatherIcon,
                     coinColor = colorOfCoin,
                     backgroundColor = colorOfBackground,
-                    playerID = pID
+                    playerId = pID,
+                    selectedCountry = CountryList
                 });
             }
 
